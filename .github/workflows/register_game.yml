@@ -1,0 +1,24 @@
+name: Update Game Registry
+
+permissions:
+  contents: write
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  update-registry:
+    uses: mcfredrick/crap_games/.github/workflows/update-registry.yml@main
+    with:
+      game-name: "Snail Simulator"
+      subdomain: "snailsim"
+      description: "Snails are the artists of the mollusk world."
+      category: "simulation"
+      tags: "snail, art, paint"
+      thumbnail-url: "https://snailsim.crap.games/assets/icon.png"
+      author: "ttam"
+      repo-url: "https://github.com/mcfredrick/snailsim"
+      version: "0.1.0"
+    secrets: inherit
