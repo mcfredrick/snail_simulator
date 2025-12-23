@@ -32,7 +32,7 @@ func start_game():
     spawn_player()
     
     # Set up mobile controls if on mobile
-    if OS.has_feature("mobile"):
+    if DisplayServer.is_touchscreen_available():
         setup_mobile_controls()
 
 func setup_input_actions():
