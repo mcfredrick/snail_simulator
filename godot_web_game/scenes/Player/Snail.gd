@@ -6,7 +6,7 @@ extends CharacterBody2D
 @export var speed:               float = 200.0
 @export var rotation_speed:     float = 5.0
 @export var trail_scene:        PackedScene
-@export var scale_factor:       float = 4.0
+@export var scale_factor:       float = 2.0
 
 # -------------------------------------------------------------------------
 #  STATE
