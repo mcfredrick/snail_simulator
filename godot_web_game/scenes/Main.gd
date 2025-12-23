@@ -2,7 +2,6 @@ extends Node2D
 
 # Preload scenes
 const SNAIL_SCENE = preload("res://scenes/Player/Snail.tscn")
-const MOBILE_CONTROLS_SCENE = preload("res://scenes/UI/MobileControls.tscn")
 
 # Game state
 var player = null
@@ -39,10 +38,10 @@ func start_game():
 func setup_input_actions():
     # Set up input map for keyboard controls
     var input_map = {
-        "move_up": [KEY_W, KEY_UP],
-        "move_down": [KEY_S, KEY_DOWN],
-        "move_left": [KEY_A, KEY_LEFT],
-        "move_right": [KEY_D, KEY_RIGHT]
+        "ui_up": [KEY_W, KEY_UP],
+        "ui_down": [KEY_S, KEY_DOWN],
+        "ui_left": [KEY_A, KEY_LEFT],
+        "ui_right": [KEY_D, KEY_RIGHT]
     }
     
     for action in input_map:
@@ -81,13 +80,23 @@ func spawn_player():
     player.connect("tree_exiting", Callable(self, "_on_Player_died"))
 
 func setup_mobile_controls():
-    # Add mobile controls
-    mobile_controls = MOBILE_CONTROLS_SCENE.instantiate()
-    add_child(mobile_controls)
+    # Create and configure the touch screen joystick
+    var joystick = preload("res://addons/touch_screen_joystick/touch_screen_joystick.gd").new()
     
-    # Connect joystick signal to player
-    if player and mobile_controls:
-        mobile_controls.connect("joystick_moved", Callable(player, "_on_joystick_use_move_vector"))
+    # Configure joystick properties
+    joystick.name = "TouchScreenJoystick"
+    joystick.size = Vector2(300, 300)  # Make it a good size for touch
+    joystick.position = Vector2(50, get_viewport_rect().size.y - 350)  # Position at bottom left
+    joystick.base_radius = 80.0
+    joystick.knob_radius = 40.0
+    joystick.deadzone = 10.0
+    joystick.use_input_actions = true  # This will automatically handle the input actions
+    
+    # Add to scene
+    add_child(joystick)
+    mobile_controls = joystick  # Store reference
+    
+    # The joystick will automatically handle input actions, so we don't need to connect signals
 
 func _on_Player_died():
     # Handle player death

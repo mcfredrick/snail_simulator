@@ -13,7 +13,6 @@ extends CharacterBody2D
 # -------------------------------------------------------------------------
 var trail:          Node2D   = null
 var current_color: Color    = Color.WHITE
-var joystick_input: Vector2 = Vector2.ZERO
 
 # -------------------------------------------------------------------------
 #  READY
@@ -229,11 +228,10 @@ func _add_eyes() -> void:
 # -------------------------------------------------------------------------
 func _physics_process(delta: float) -> void:
     var input_vec = Vector2.ZERO
-    input_vec.x = Input.get_action_strength("move_right") - Input.get_action_strength("move_left")
-    input_vec.y = Input.get_action_strength("move_down")  - Input.get_action_strength("move_up")
+    input_vec.x = Input.get_action_strength("ui_right") - Input.get_action_strength("ui_left")
+    input_vec.y = Input.get_action_strength("ui_down")  - Input.get_action_strength("ui_up")
 
-    if joystick_input.length() > 0.1:
-        input_vec = joystick_input.normalized()
+    # The joystick now directly controls the ui_* actions, so we don't need the joystick_input anymore
 
     if input_vec.length() > 0.0:
         velocity = input_vec.normalized() * speed
@@ -284,10 +282,6 @@ func set_color(col: Color) -> void:
     current_color = col
     if trail and is_instance_valid(trail):
         trail.set_trail_color(col)
-
-
-func on_joystick_use_move_vector(move_vector: Vector2) -> void:
-    joystick_input = move_vector
 
 
 # -------------------------------------------------------------------------
