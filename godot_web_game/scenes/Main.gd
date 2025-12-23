@@ -2,6 +2,14 @@ extends Node2D
 
 # Preload scenes
 const SNAIL_SCENE = preload("res://scenes/Player/Snail.tscn")
+const FLOWER_SCENE = preload("res://scenes/Flower/Flower.tscn")
+
+# Flower spawning
+@export var max_flowers: int = 10
+@export var spawn_interval: float = 3.0
+var flower_timer: float = 0.0
+var viewport_rect: Rect2
+var margin: float = 50.0
 
 # Game state
 var player = null
@@ -20,6 +28,10 @@ func _ready():
     
     # Set up input actions
     setup_input_actions()
+    
+    # Initialize viewport rect
+    var viewport_size = get_viewport_rect().size
+    viewport_rect = Rect2(margin, margin, viewport_size.x - 2 * margin, viewport_size.y - 2 * margin)
     
 func start_game():
     if game_started:
@@ -98,6 +110,19 @@ func setup_mobile_controls():
     
     # The joystick will automatically handle input actions, so we don't need to connect signals
 
+func spawn_flower() -> void:
+    var flower = FLOWER_SCENE.instantiate()
+    add_child(flower)
+    flower.add_to_group("flowers")
+    
+    # Position the flower randomly within the viewport bounds
+    var x = randf_range(viewport_rect.position.x, viewport_rect.position.x + viewport_rect.size.x)
+    var y = randf_range(viewport_rect.position.y, viewport_rect.position.y + viewport_rect.size.y)
+    flower.position = Vector2(x, y)
+    
+    # Add a small random offset to prevent perfect grid alignment
+    flower.position += Vector2(randf_range(-20, 20), randf_range(-20, 20))
+
 func _on_Player_died():
     # Handle player death
     print("Player died!")
@@ -114,3 +139,10 @@ func _process(delta):
     # Update camera to follow player
     if player:
         $Camera2D.position = player.position
+    
+    # Handle flower spawning
+    if game_started:
+        flower_timer += delta
+        if flower_timer >= spawn_interval and get_tree().get_nodes_in_group("flowers").size() < max_flowers:
+            flower_timer = 0.0
+            spawn_flower()

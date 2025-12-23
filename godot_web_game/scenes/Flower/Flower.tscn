@@ -1,0 +1,41 @@
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://scenes/Flower/Flower.gd" id="1_7q2vx"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_9s9g7"]
+size = Vector2(16, 16)
+
+[node name="Flower" type="Area2D"]
+script = ExtResource("1_7q2vx")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_9s9g7")
+
+[node name="FlowerSprite" type="Node2D" parent="."]
+
+[node name="Stem" type="Polygon2D" parent="FlowerSprite"]
+polygon = PackedVector2Array(0, 0, 2, 0, 2, 16, 0, 16)
+color = Color(0.2, 0.6, 0.2, 1)
+position = Vector2(-1, 8)
+
+[node name="Petal1" type="Polygon2D" parent="FlowerSprite"]
+polygon = PackedVector2Array(0, 0, 8, -8, 16, 0, 8, 8)
+
+[node name="Petal2" type="Polygon2D" parent="FlowerSprite"]
+polygon = PackedVector2Array(0, 0, 8, -8, 16, 0, 8, 8)
+rotation = 0.785398
+
+[node name="Petal3" type="Polygon2D" parent="FlowerSprite"]
+polygon = PackedVector2Array(0, 0, 8, -8, 16, 0, 8, 8)
+rotation = 1.5708
+
+[node name="Petal4" type="Polygon2D" parent="FlowerSprite"]
+polygon = PackedVector2Array(0, 0, 8, -8, 16, 0, 8, 8)
+rotation = 2.35619
+
+[node name="Center" type="Polygon2D" parent="FlowerSprite"]
+polygon = PackedVector2Array(0, 0, 6, 0, 6, 6, 0, 6)
+color = Color(0.8, 0.8, 0.2, 1)
+position = Vector2(5, 5)
+
+[connection signal="body_entered" from="CollisionShape2D" to="." method="_on_body_entered"]
