@@ -1,0 +1,22 @@
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://scenes/Player/Snail.gd" id="1_0"]
+[ext_resource type="PackedScene" uid="uid://bq0q1z3v1w4q2" path="res://scenes/Player/Trail.tscn" id="2_0"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_0"]
+radius = 16.0
+
+[node name="Snail" type="CharacterBody2D"]
+collision_layer = 1
+collision_mask = 1
+script = ExtResource("1_0")
+trail_scene = ExtResource("2_0")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+position = Vector2(-16, -16)
+size = Vector2(32, 32)
+color = Color(0.2, 0.8, 0.3, 1)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, 0)
+shape = SubResource("CircleShape2D_0")
