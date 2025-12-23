@@ -38,7 +38,7 @@ func _process(_delta: float) -> void:
     # Add a new point if we've moved enough distance from the last point
     if get_point_count() < 2 or local_target_pos.distance_to(get_point_position(1)) >= min_distance:
         add_point(local_target_pos, 1)
-    
+
 
 func set_trail_color(color: Color) -> void:
     current_color = color

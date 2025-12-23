@@ -37,5 +37,3 @@ rotation = 2.35619
 polygon = PackedVector2Array(0, 0, 6, 0, 6, 6, 0, 6)
 color = Color(0.8, 0.8, 0.2, 1)
 position = Vector2(5, 5)
-
-[connection signal="body_entered" from="CollisionShape2D" to="." method="_on_body_entered"]

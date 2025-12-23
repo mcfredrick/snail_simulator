@@ -17,7 +17,7 @@ func _ready() -> void:
     rotation = randf() * TAU
     
     # Connect the body_entered signal from the Area2D using call_deferred
-    call_deferred("connect", "body_entered", Callable(self, "_on_body_entered"))
+    body_entered.connect(_on_body_entered)
 
 func _on_body_entered(body: Node) -> void:
     if body.has_method("set_color"):
