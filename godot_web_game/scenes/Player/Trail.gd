@@ -35,26 +35,25 @@ func _process(_delta: float) -> void:
         update_gradient()
         return
     
-    # Always update the first point to be exactly at the target's position
-    set_point_position(0, local_target_pos)
+    # Always update the last point to be exactly at the target's position
+    var last_point_idx = get_point_count() - 1
+    set_point_position(last_point_idx, local_target_pos)
     
-    # Add a new point if we've moved enough distance from the last point
-    if get_point_count() < 2 or local_target_pos.distance_to(get_point_position(1)) >= min_distance:
-        add_point(local_target_pos, 1)
-        point_colors.insert(1, current_color)
+    # Add a new point if we've moved enough distance from the previous point
+    if get_point_count() < 2 or local_target_pos.distance_to(get_point_position(last_point_idx - 1)) >= min_distance:
+        add_point(local_target_pos)
+        point_colors.append(current_color)
         update_gradient()
     else:
-        # Update the first point's color if it changed
-        if point_colors[0] != current_color:
-            point_colors[0] = current_color
+        # Update the last point's color if it changed
+        if point_colors[last_point_idx] != current_color:
+            point_colors[last_point_idx] = current_color
             update_gradient()
 
 
 func set_trail_color(color: Color) -> void:
     current_color = color
-    if point_colors.size() > 0:
-        point_colors[0] = color
-        update_gradient()
+    update_gradient()
 
 func clear_trail() -> void:
     clear_points()
