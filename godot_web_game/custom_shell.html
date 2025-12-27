@@ -173,21 +173,24 @@
         let isMuted = true; // Start muted
         let musicReady = false;
         let hasUserInteracted = false;
+        let widgetInitialized = false;
 
         // Wait for SoundCloud widget to be ready
         widget.bind(SC.Widget.Events.READY, function() {
             console.log('SoundCloud widget ready');
             musicReady = true;
             
-            // Set volume to 0 initially (muted)
+            // Immediately pause and mute on load (especially important for mobile)
+            widget.pause();
             widget.setVolume(0);
             
-            // Get playlist info and start at random track
+            // Get playlist info and queue up a random track (but don't play yet)
             widget.getSounds(function(sounds) {
                 if (sounds && sounds.length > 0) {
                     const randomIndex = Math.floor(Math.random() * sounds.length);
                     widget.skip(randomIndex);
-                    console.log('Starting at track', randomIndex + 1, 'of', sounds.length);
+                    console.log('Queued track', randomIndex + 1, 'of', sounds.length);
+                    widgetInitialized = true;
                 }
             });
             
@@ -202,35 +205,45 @@
                 });
             });
         });
+        
+        // Monitor playback state and force pause if not unmuted
+        widget.bind(SC.Widget.Events.PLAY, function() {
+            if (isMuted && !hasUserInteracted) {
+                console.log('Preventing unwanted autoplay');
+                widget.pause();
+                widget.setVolume(0);
+            }
+        });
 
         // Music toggle button functionality
         toggleButton.addEventListener('click', function(e) {
             e.preventDefault(); // Prevent default button behavior
             
-            if (!musicReady) {
+            if (!musicReady || !widgetInitialized) {
                 console.log('Music not ready yet');
                 canvas.focus(); // Return focus to game even if music isn't ready
                 return;
             }
 
-            // First click unmutes and starts playing
-            if (!hasUserInteracted) {
-                hasUserInteracted = true;
-                widget.play(); // Start playing on first interaction
-            }
-
             if (isMuted) {
+                // Unmute
+                hasUserInteracted = true;
                 widget.setVolume(50);
+                widget.play(); // Start playing
                 iconMuted.style.display = 'none';
                 iconUnmuted.style.display = 'block';
                 toggleButton.title = 'Mute Music';
                 isMuted = false;
+                console.log('Music unmuted and playing');
             } else {
+                // Mute
+                widget.pause();
                 widget.setVolume(0);
                 iconMuted.style.display = 'block';
                 iconUnmuted.style.display = 'none';
                 toggleButton.title = 'Unmute Music';
                 isMuted = true;
+                console.log('Music muted and paused');
             }
             
             // Return focus to the game canvas immediately
