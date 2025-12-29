@@ -23,4 +23,7 @@ mkdir -p "${BUILD_DIR}"
 echo "Exporting preset \"${EXPORT_PRESET}\" using ${GODOT_BIN}"
 "${GODOT_BIN}" --headless --path "${PROJECT_DIR}" --export-release "${EXPORT_PRESET}" "${BUILD_DIR}/index.html"
 
+echo "Copying JavaScript feature files to build directory"
+cp -r "${PROJECT_DIR}/js/" "${BUILD_DIR}/"
+
 echo "Web build complete → ${BUILD_DIR}"
