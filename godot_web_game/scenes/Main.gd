@@ -23,8 +23,8 @@ func _ready():
     # Set up window size and scaling
     get_tree().set_auto_accept_quit(false)
     
-    # Show title screen
-    $UI/TitleScreen.visible = true
+    # Start the game immediately
+    start_game()
     
     # Set up input actions
     setup_input_actions()
@@ -38,7 +38,6 @@ func start_game():
         return
         
     game_started = true
-    $UI/TitleScreen.visible = false
     
     # Create player
     spawn_player()
