@@ -331,6 +331,53 @@
             musicToggle.style.display = 'flex';
         }
 
+        const url = "snailsim.crap.games"
+
+        const remarks = [
+            "Check out my snail trail on " + url,
+            "Snail mail from " + url,
+            "Follow my slime trail on " + url,
+            "Snail art at " + url,
+            "My snail's trail on " + url,
+            "Slime tracks at " + url,
+            "Snail life on " + url,
+            "I'm a trailblazing snail on " + url,
+            "My gastropod art on " + url,
+            "Snail safari at " + url,
+            "Follow my snail trail on " + url,
+            "Snail ya later at " + url,
+            "If your foot was your stomach, you'd be at " + url,
+            "Get slimy with me at " + url,
+            "It's a snail of a trail at " + url,
+            "My snail moves at the speed of awesome on " + url,
+            "This slime is my masterpiece on " + url,
+            "Snail power activated on " + url,
+            "I left a trail of glory on " + url,
+            "Snailtastic adventures await at " + url,
+            "My shell is coming off on " + url,
+            "This snail is on fire on " + url,
+            "I'm not slow, I'm snail-y on " + url,
+            "Snail mail delivery service at " + url,
+            "My snail senses are tingling on " + url,
+            "This gastropod is groovy on " + url,
+            "Snail velocity maximum on " + url,
+            "I've got snail game on " + url,
+            "Shell yeah! Check it out at " + url,
+            "My snail game is strong on " + url,
+            "This trail is lit on " + url,
+            "Snail mode engaged on " + url,
+            "I'm feeling snail-tastic on " + url,
+            "My snail fu is unmatched on " + url,
+            "Trail blazing like a boss on " + url,
+            "Snail life finds a way on " + url,
+            "This gastropod is legendary on " + url,
+            "My snail senses are tingling on " + url,
+            "Snail power level 9000 on " + url,
+            "I've mastered the snail arts on " + url,
+            "Shell we go again on " + url,
+            "This snail is unstoppable on " + url
+        ];
+
         // Function to capture screenshot
         async function captureScreenshot() {
             // Hide UI elements temporarily
@@ -340,25 +387,7 @@
             await new Promise(resolve => requestAnimationFrame(resolve));
             
             try {
-                const url = "snailsim.crap.games"
                 // Randomly select a creative remark
-                const remarks = [
-                    "Check out my snail trail on " + url,
-                    "Snail mail from " + url, 
-                    "Follow my slime trail on " + url,
-                    "Snail art at " + url,
-                    "My snail's trail on " + url,
-                    "Slime tracks at " + url,
-                    "Snail life on " + url,
-                    "I'm a trailblazing snail on " + url,
-                    "My gastropod art on " + url,
-                    "Snail safari at " + url,
-                    "Follow my snail trail on " + url,
-                    "Snail ya later at " + url,
-                    "If your foot was your stomach, you'd be at " + url,
-                    "Get slimy with me at " + url,
-                    "It's a snail of a trail at " + url,
-                ];
                 const randomRemark = remarks[Math.floor(Math.random() * remarks.length)];
                 
                 // Capture the canvas
@@ -561,9 +590,11 @@
             // Check if Web Share API is supported
             if (navigator.share && navigator.canShare && navigator.canShare({ files: [file] })) {
                 try {
+                    const randomShareRemark = remarks[Math.floor(Math.random() * remarks.length)];
+
                     await navigator.share({
                         title: 'Check out my snail trail!',
-                        text: 'I created this amazing snail trail in Snail Simulator. Try it yourself!',
+                        text: randomShareRemark,
                         files: [file],
                         url: window.location.href
                     });
